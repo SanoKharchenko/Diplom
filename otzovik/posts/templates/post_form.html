@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static%}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}
+{% if form.instance.pk %}Редактирование поста{% else %}Создание нового поста{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="post-form">
+    <h1>{% if form.instance.pk %}Редактирование поста
+        {% else %}Создание нового поста
+        {% endif %}
+    </h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <div class="form-links">
+        <a href="{% url 'posts:index' %}">Назад к списку постов</a>
+    </div>
+</div>
+{% endblock %}

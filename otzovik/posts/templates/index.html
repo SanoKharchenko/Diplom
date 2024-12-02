@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block navigator %}
+<div class="menu">
+    <input type="checkbox" id="menuToggle">
+    <label for="menuToggle" class="menu-icon">&#9776;</label>
+    <ul class="menu-content">
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'users:profile' %}">{{ user.username }}</a></li>
+        <li><a href='{% url "users:logout" %}'>Выйти</a></li>
+        <a href="{% url 'posts:post_create' %}">Создать новый пост</a>
+        {% else %}
+        <li><a href="{% url 'users:login' %}">Вход</a></li>
+        <li><a href="{% url 'users:registration' %}">Регистрация</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+{% endblock %}

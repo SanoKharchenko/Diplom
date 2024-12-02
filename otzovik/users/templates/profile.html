@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block navigator %}{% endblock %}
+
+{% block content %}
+<div class="profile">
+    <div class="profile-info">
+        <h1>Здравствуйте, {{ user.username }}!</h1>
+        <img width="300" height="300"
+             src="{% if user.image %} {{ user.image.url }} {% else %} {% static 'media/user-icon.png' %} {% endif %}">
+        <p><strong>Имя: {{ user.first_name }}</strong></p>
+        <p><strong>Фамилия: {{ user.last_name }}</strong></p>
+        <p><strong>Email: {{ user.email }}</strong></p>
+        <p><strong>Возраст: {{ user.age }}</strong></p>
+        <p><strong>Город: {{ user.city }}</strong></p>
+    </div>
+    <details>
+        <summary><h2>Редактировать профиль</h2></summary>
+        <ul>
+            <form method="post" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Сохранить изменения</button>
+            </form>
+        </ul>
+    </details>
+    <div class="profile-actions">
+        <a href="{% url 'users:logout' %}">Выйти</a>
+        <a href="{% url 'posts:index' %}">Главная страница</a>
+    </div>
+
+</div>
+{% endblock %}
+
+

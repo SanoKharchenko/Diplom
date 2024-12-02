@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Главная страница{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header>
+    {% block header %}
+    <h1>Добро пожаловать к нам, на "Отзовичёк"!</h1>
+    {% endblock %}
+</header>
+<nav>
+    {% block navigator %}
+
+    {% endblock %}
+</nav>
+<main>
+    {% block content %}
+    <div class="post-container">
+
+        {% for post in page_obj %}
+        <div class="post-card">
+            <h2><a><center>{{ post.title }}</center></a></h2>
+            <div class="post-details">
+                <img width="300" height="300"
+                     src="{% if post.image %} {{ post.image.url }} {% else %} {% static 'media/no_image.png' %} {% endif %}">
+                <p><strong>Опубликовал:{{ post.name }}</strong></p>
+                <p><strong>Описание:{{ post.content }}</strong></p>
+                <p><strong><h5>Дата публикации:{{ post.date_create }}</h5></strong></p>
+                {% if user.is_authenticated %}
+                <div class="post-actions">
+                    <a class="btn-primary" href="{% url 'posts:post_edit' post.pk %}">Редактировать</a>
+                </div>
+                {% endif%}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if page_obj.has_other_pages %}
+    <nav class="list-page">
+        <ul>
+            {% if page_obj.has_previous %}
+            <li class="page-num">
+                <a href="?page{{ page_obj.previous_page_number }}">&lt;</a>
+            </li>
+            {% endif %}
+            {% for p in page_obj.paginator.page_range %}
+            {% if page_obj.number == p %}
+            <li class="page-num page-num-selected">{{ p }}</li>
+            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+            <li class="page-num">
+                <a href="?page={{ p }}">{{ p }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-num">
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    {% endblock %}
+
+</main>
+<footer>
+    {% block footer %}
+    <p>Пробуем создать сайт на Django</p>
+    {% endblock %}
+</footer>
+</body>
+</html>
