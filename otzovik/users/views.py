@@ -20,6 +20,14 @@ def registration(request):
     return render(request, 'registration.html', context)
 
 
+'''
+Функция для регистрации пользователя
+Форму для регистрацию используем которую прописали в UserRegistrationForm
+Если все данные введены верно, то сохраняем пользователя и происходит вход в учетную запись "auth.login",
+перенаправляем на страницу пользователя
+'''
+
+
 # вход пользователя
 def login_view(request):
     error = {}
@@ -36,6 +44,15 @@ def login_view(request):
     return render(request, 'login.html', {'error': error})
 
 
+'''
+Функция для входа пользователя
+Получаем ответ вводимых данных методом 'POST'
+Если пользователь с такими данными найден проходит аутентификация (auth.authenticate) данных и 
+затем вход в учетную запись (auth.login). Перенапрявляем на страницу профиля если все верно
+Если данные не верны, выдаем ошибку
+'''
+
+
 # профиль пользователя
 def profile(request):
     user = request.user
@@ -50,7 +67,20 @@ def profile(request):
     return render(request, 'profile.html', context)
 
 
+'''
+Функция страницы пользователя и редактирования в ней данных
+Если пользователь найден, то по форме UserProfileForm открываем данные для редактирования
+Когда данные будут введены верно, сохраняем их
+'''
+
+
 # выход из своей учетной записи
 def logout_view(request):
     auth.logout(request)
     return redirect('users:login')
+
+
+'''
+Функция необходима для выхода из профиля
+в auth.logout реализованы необходимый метод
+'''

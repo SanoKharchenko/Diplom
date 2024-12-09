@@ -12,6 +12,14 @@ class UserLoginForm(AuthenticationForm):
         fields = ('username', 'password')
 
 
+'''
+Форма для заполнения при входе пользователя
+Заполняется: Имя пользлвателя и пароль
+За основу взята форма авторизации AuthenticationForm
+В классе Meta указываем те данные которые нам необходимы для заполнеия
+'''
+
+
 class UserRegistrationForm(UserCreationForm):
     first_name = forms.CharField(max_length=100, label='Ваше имя:')
     last_name = forms.CharField(max_length=100, label='Ваша фамилия:')
@@ -24,6 +32,15 @@ class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'age')
+
+
+'''
+Форма регистрации пользователя
+Заполняются неоходимые поля: Имя, Фамилия, Имя пользователя, электронная почта, возраст и пароль
+Наследуемся от UserCreationForm
+В классе Meta берем данные для заполнения котторые нам необходимы
+
+'''
 
 
 class UserProfileForm(UserChangeForm):
@@ -41,5 +58,8 @@ class UserProfileForm(UserChangeForm):
 
 
 '''
-Создаем форму для регистрации, входа и редактирования пользователя
+Создаем форму профиля
+Будут отбражаться и изменяться данные пользователя
+Можно изменить Имя, Фамилию, Имя пользователя, изменить фотографию, возраст, город
+Наследовались от UserChangeForm
 '''
