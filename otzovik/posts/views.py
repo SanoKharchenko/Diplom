@@ -20,6 +20,12 @@ def post_create(request):
     return render(request, 'post_form.html', context)  # post_form.html - форма публикации и редактирования
 
 
+'''
+Функция для создания нового поста
+Если все данные по форме "PostForm" введены верно, то сохраняем их и публикуем
+'''
+
+
 # Все посты главная страница. Ипользуем пагинацию для того чтобы на страницу отображалось по 3 поста
 def index(request):
     posts = Post.objects.all().order_by('-date_create')
@@ -29,6 +35,13 @@ def index(request):
     context = {'posts': posts,
                'page_obj': page_obj}
     return render(request, 'index.html', context)
+
+
+'''
+Функция для отображения всех постов которые у нас есть
+и чтобы не было на одной страницы много данных, мы разбиваем их по страницам используя "Paginator"
+На одной странице отбражается не более 3 постов и отображается от новых к более старым '-date_create'
+'''
 
 
 # Редактирование поста
@@ -43,3 +56,10 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     context = {'form': form}
     return render(request, 'post_form.html', context)
+
+
+'''
+Если вдруг мы что-то ввели нре верно или хотели бы изменить свой пост, для этого используем эту функцию
+Форму для редактирования мы используем "PostForm"
+После редактирования перенаправляем на главную страницу со всеми постами 
+'''
